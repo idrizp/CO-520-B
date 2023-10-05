@@ -1,0 +1,55 @@
+% \begin{center}
+%     \begin{circuitikz}
+%         % Draw a voltage source from 0 to 5V
+%         \draw (0,0) to [sqV, voltage dir=RP, v=$V_{in}$] (0,4);
+%         \draw (0,4) to [R, l=$100\Omega$] (\textwidth/4,4);
+%         \draw (\textwidth/4,4) to [L, l=$10\text{mH}$] (\textwidth/2,4);
+%         % Draw a C that connects to the voltage in
+%         \draw (\textwidth/2,4) to [C, l=$6\text{n}8\text{F}$] (\textwidth/2,0);
+%         \draw (\textwidth/2,0) to (0,0);
+%     \end{circuitikz}
+% \end{center}
+
+\begin{center}
+    \begin{tabular}{cc}
+        % Left Column (Text)
+        \begin{minipage}{0.4\linewidth}
+            \begin{itemize}
+                \item $V_{pp} = 1\text{V}$
+                \item $V_{off} = 0.5\text{V}$
+                \item $f = 100\text{Hz}$
+                \item $R_i = 50\Omega$
+            \end{itemize}
+        \end{minipage}
+         &
+        % Right Column (Circuit)
+        \begin{minipage}{0.6\linewidth}
+            \begin{circuitikz}
+                % Draw a voltage source from 0 to 5V
+                \draw (0,0) to [sqV, voltage dir=RP, v=$V_{in}$] (0,4);
+                \draw (0,4) to [R, l=$100\Omega$] (\linewidth/4,4);
+                \draw (\linewidth/4,4) to [L, l=$10\text{mH}$] (\linewidth/2,4);
+                % Draw a C that connects to the voltage in
+                \draw (\linewidth/2,4) to [C, l=$6\text{n}8\text{F}$] (\linewidth/2,0);
+                \draw (\linewidth/2,0) to (0,0);
+            \end{circuitikz}
+        \end{minipage}
+    \end{tabular}
+\end{center}
+
+\begin{enumerate}
+    \item The function generator was set to produce a 100Hz square wave with an amplitude of $0.5\text{V}$ and an offset of $0.5\text{V}$. It was checked with the oscilloscope if the signal modulated between $0\text{V}$ and $1\text{V}$.
+
+    \item Subsequently, the R-decade was set to $100\Omega$, and the oscilloscope was connected in parallel to the capacitor.
+
+    \item The damped frequency $f_d$ was measured. To determine $f_d$, the time or frequency of the exponentially damped sinusoidal waveform was measured. A hardcopy was taken of one signal period and another focusing on the ringing phenomenon.
+
+    \item Afterward, the damped radian frequency $\omega_d$ was calculated. In this calculation, the internal resistance of the function generator was considered to be $50\Omega$. The calculated value was compared with the measured value from step (2). If they were consistent, the next steps were proceeded with.
+
+    \item The resistance required for the circuit to be critically damped was then calculated. The signal was displayed, and a hardcopy was taken.
+
+    \item To check if the practical signal was critically damped, the R-decade value was varied, and a hardcopy of the final result was taken.
+
+    \item Finally, the R-decade was set to $30\text{k}\Omega$, causing the circuit to be over-damped. The transient voltage across the capacitor was displayed, and a hardcopy was taken.
+\end{enumerate}
+
