@@ -88,9 +88,9 @@ zeta = R/2 * sqrt(C/L);
 w_n = 1/sqrt(L*C);
 
 % We obtained that C1 = -1, and C2 = -w_n.
-C2 = -w_n;
+C2 = 0;
 C1 = -1;
-y = (C1*exp(-zeta * w_n .* t) + C2.*t.*exp(-zeta * w_n .* t)) + 1;
+y = 
 plot(t, y, 'blue');
 
 legend({'Underdamped','Critically Damped'},'Location','southwest')
