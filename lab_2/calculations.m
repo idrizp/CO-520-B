@@ -20,21 +20,30 @@ R = 390; % in ohm
 C = 270E-9; % in F
 L = 10E-3; % in H
 
-H_R = tf([R*C, 0], [L*C, R*C, 1]);
-% The transfer function of the voltage taken across the resistor shows a
-% bandpass filter.
+w = 100:100:100E3;
+jw = 1i*w;
 
-H_L = tf([L*C, 0, 0], [L*C, R*C, 1]);
-% The transfer function of the voltage across the inductor shows a
-% high-pass filter.
+% Voltage over the resistor
+H_r = (jw .* (R .* C)) ./ ((jw.^2 .* L .* C) + (jw .* R .* C) + 1);
 
-H_C = tf(1,  [L*C, R*C, 1]);
-% The transfer function of the voltage across the capacitor shows a
-% low-pass filter.
+semilogx(w, 20 * log10(abs(H_r)), "blue");
 
-H_LC = tf([L*C, 0, 1], [L*C, R*C, 1]);
-% The transfer function of the voltage taken across the inductor and the
-% capacitor shows a band-stop filter.
+hold on
+
+% Voltage over the inductor
+H_l = (jw.^2 .* L .* C) ./ ((jw.^2 .* L .* C) + (jw .* R .* C) + 1);
+semilogx(w, 20 * log10(abs(H_l)), "red");
+
+% Voltage over the capacitor
+H_c = 1./((jw.^2 .* L .* C) + (jw .* R .* C) + 1);
+semilogx(w, 20 * log10(abs(H_c)), "green");
+
+% Voltage over the inductor and the capacitor
+H_lc = ((jw.^2 .* L .* C) + 1) ./ ((jw.^2 .* L .* C) + jw .* R .*C + 1);
+semilogx(w, 20 * log10(abs(H_lc)), "black");
+ylim([-50, 0]);
+
+legend("H_R", "H_L", "H_C", "H_LC", "Location", "southwest")
 
 % Calculated bandwidth and quality factor:
 B_calculated = R/L;
@@ -42,17 +51,12 @@ w_0 = 1/sqrt(L*C);
 X_0 = sqrt(L/C);
 Q_s = X_0/R;
 
-bodemag(H_R,H_L,H_C,H_LC,{1E2, 1E5});
-ylim([-100, 50])
-
 % Obtained from the plot, respectively at their 11dB cutoff
 % points: -20log10(1/sqrt(2) * 5) and 20log10(1/sqrt(2)*5)
-w_2 = 4.73E4;
-w_1 = 7.81E3;
+w_2 = 4.69E4;
+w_1 = 7.9E3;
 
 B_plot = w_2 - w_1;
-
-legend("H_R", "H_L", "H_C", "H_LC", 'Location', 'southwest');
 
 disp("Plot Bandwidth: " + (w_2 - w_1));
 
