@@ -68,6 +68,6 @@ disp("Calculated Bandwidth: " + B_calculated);
 % At resonance, the Lissajou is linear(a line), at 3100 Hz we see the
 % Lissajou turn linear, so that must be the resonant frequency
 
-% Phas shift: -500mDeg to 0 Deg(more conceretely, 0 deg)
+% Phase shift: -500mDeg to 0 Deg(more conceretely, 0 deg)
 
 % Corner frequencies: 1. 1290Hz  2. 7640Hz

@@ -96,41 +96,34 @@ plot(t, y, 'blue');
 legend({'Underdamped','Critically Damped'},'Location','southwest')
 
 %% Part 3:
-%%  Symbolic solution
 clear
-syms R1 R2 C L iL(t) Vin 
-
-Vc = iL*R2 + L*diff(iL, t);
-iC = C*diff(Vc, t);
-iT = iC + iL;
-
-eqn = combine(R1*iT + Vc == Vin);
-disp(latex(eqn))
-
-%%  Actual solution
-clear
+close all
 
 R1 = 25;
 R2 = 56;
 L = 20E-3;
-C = 2E-9;
+C = 2E-6;
 Vin = 16.2;
 
-a2 = R1*C*L;
-a1 = R1*R2*C + R2;
-a0 = R1+L;
+a2 = R1*L*C;
+a1 = R1*R2*C + L;
+a0 = R1+R2;
 
 w_n = sqrt(a0 / a2);
-zeta = a1 / 2*sqrt(a0 * a2);
+zeta = a1 / (2*sqrt(a0 * a2));
 K = 1/a0;
-w_d = w_n * sqrt(1 - zeta^2);
 
-% It is underdamped.
-C1 = -Vin;
-C2 = ((Vin / L) - (w_n * zeta * Vin)) / (w_d);
+iL_p = Vin / (R1 + R2);
+C2 = iL_p * (zeta - sqrt(zeta^2 - 1)) / (2 * sqrt(zeta^2 - 1));
+C1 = -C2 - iL_p;
 
 % The current over the inductor.
-t = 0:1E-6:1E-3;
-y = exp(-zeta .* w_n .* t) .* (C1 * cos(w_d .* t) + C2 * sin(w_d .* t)) + Vin;
+t = 0:1E-6:1E-2;
+% It is overdamped.
+y = C1 .* exp((-zeta + sqrt(zeta^2 - 1)) .* t .* w_n) + ...
+        C2 .* exp((-zeta - sqrt(zeta^2 - 1)) .* t .* w_n) + iL_p;
 
-plot(t, y);
+plot(t, y, "blue", "LineWidth", 2);
+ylim([0, 0.3])
+legend("Overdamped Behavior")
+
