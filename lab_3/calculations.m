@@ -66,7 +66,7 @@ N_samples = Fs * 10E-3;
 y = y(1:N_samples);
 t = 0:1/Fs:((10E-3)-1/Fs);
 plot(t, y);
-
+%% 
 Y = fft(y);
 rms = sqrt(mean(abs(Y.^2)));
 
@@ -76,11 +76,13 @@ Y_single = 2 * abs(Y) / N_samples;
 Y_single = Y_single(1:floor(N_samples/2));
 f = linspace(0,Fs_nyquist,length(Y_single));
 Y_db = 20*log10(Y_single ./ rms);
+plot(f, Y_single);
 
-plot(f, Y_db);
-ylabel("Amplitude(in dBVrms)")
-xlabel("Frequency (in Hz)");
-xlim([0, 20000]);
+% 
+% plot(f, Y_db);
+% ylabel("Amplitude(in dBVrms)")
+% xlabel("Frequency (in Hz)");
+% xlim([0, 20000]);
 
 %% Functions
 

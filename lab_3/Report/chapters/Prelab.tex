@@ -200,3 +200,63 @@ function [t, signal, f, y_single_db] = get_square(duty_cycle)
     f = linspace(0, f_nyquist, length(y_single));
 end
 \end{verbatim}
+
+Following by the equation:
+
+\begin{equation}
+    c_k = \frac{1}{k\pi}\sin(k\omega_0T_1)
+\end{equation}
+
+It is observed that for a lower $T_1$, for each frequency component the amplitude of the component is lower. This is due to the fact that the pulse width is lower, and thus the signal is more spread out in the time domain. This is also observed in the frequency domain, where the frequency components are more spread out, thereby more frequency components are required to represent the signal.
+
+\section{Problem 4: FFT of an audio file}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/prelab_problem_4_time.png}
+    \caption{A figure showing the plot of the audio file}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/prelab_problem_4_freq.png}
+    \caption{A figure showing the frequency spectrum of the audio file}
+\end{figure}
+
+The following code was used for the plots:
+\vspace{1cm}
+\begin{verbatim}
+%% Problem 4:
+[y, Fs] = audioread("s_samp.wav");
+
+N_samples = Fs * 10E-3;
+y = y(1:N_samples);
+t = 0:1/Fs:((10E-3)-1/Fs);
+plot(t, y);
+%% 
+Y = fft(y);
+rms = sqrt(mean(abs(Y.^2)));
+
+Fs_nyquist = Fs / 2; 
+
+Y_single = 2 * abs(Y) / N_samples;
+Y_single = Y_single(1:floor(N_samples/2));
+f = linspace(0,Fs_nyquist,length(Y_single));
+Y_db = 20*log10(Y_single ./ rms);
+
+plot(f, Y_db);
+ylabel("Amplitude(in dBVrms)")
+xlabel("Frequency (in Hz)");
+xlim([0, 20000]);
+\end{verbatim}
+
+The following tones are observed:
+\begin{itemize}
+    \item G3 - 201Hz
+    \item B4 - 503Hz
+    \item E6 - 1308Hz
+    \item A6 - 1812Hz
+    \item E7 - 2617Hz
+    \item A\#7 - 3826Hz
+    \item D\#8 - 5034Hz
+    \item G\#8 - 6645Hz
+\end{itemize}
