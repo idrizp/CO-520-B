@@ -63,10 +63,12 @@ title("FT: Duty Cycle: 20%");
 [y, Fs] = audioread("s_samp.wav");
 
 N_samples = Fs * 10E-3;
-y = y(1:N_samples);
+y_first = y(1:N_samples);
 t = 0:1/Fs:((10E-3)-1/Fs);
-plot(t, y);
+plot(t, y_first);
 %% 
+
+N_samples = length(y);
 Y = fft(y);
 rms = sqrt(mean(abs(Y.^2)));
 
@@ -75,15 +77,46 @@ Fs_nyquist = Fs / 2;
 Y_single = 2 * abs(Y) / N_samples;
 Y_single = Y_single(1:floor(N_samples/2));
 f = linspace(0,Fs_nyquist,length(Y_single));
+
 Y_db = 20*log10(Y_single ./ rms);
-plot(f, Y_single);
+Y_db(Y_db == -Inf) = 0;
 
-% 
-% plot(f, Y_db);
-% ylabel("Amplitude(in dBVrms)")
-% xlabel("Frequency (in Hz)");
-% xlim([0, 20000]);
+% plot(f, Y_single);
 
+plot(f, Y_db);
+ylabel("Amplitude(in dBVrms)")
+xlabel("Frequency (in Hz)");
+
+%% Lab start
+clear
+clc
+
+% Problem 1:
+
+% Oscilloscope found to be incalibrated perhaps, 5Hz error, 1% error when
+% it should be 0.1% error.
+% Vpp used for 0dB: 2.7Vpp, delta dB = 46.8dB, Cursor dB: -148mdB
+
+% Problem 2:
+
+% First harmonic: -989mdB, 1050Hz
+% Second harmonic: -10.1dB, 2950Hz
+% Third harmonic: -14.9dB, 5000Hz
+% Fourth harmonic: -17.7dB, 7000Hz
+
+% 250kS/s was used
+
+% First non-DC harmonic: -5.39dB, 1010Hz
+% Second non-DC harmonic: -7.39dB, 2010Hz
+% Third non-DC harmonic: -10.9dB, 2970Hz
+% Fourth non-DC harmonic: -17.3dB, 3980Hz
+
+%50kS/s
+
+% Problem 3:
+
+% First harmonic: -26.9dB, 1000Hz
+% Second harmonic: -23.7dB, 9900Hz
 %% Functions
 
 function [t, signal, f, y_single_db] = get_square(duty_cycle)
@@ -91,7 +124,7 @@ function [t, signal, f, y_single_db] = get_square(duty_cycle)
     Fs = 200e3;
     frequency = 1/period;
     Vpp = 2;
-    duration = period * 4;
+    duration = period * 6;
     
     % The signal
     t = 0:1/Fs:duration;

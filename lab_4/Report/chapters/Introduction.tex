@@ -1,0 +1,28 @@
+\section{Problem 1: The Sampling Theorem}
+\begin{enumerate}
+    \item {\bf Analog signals are usually passed through a low-pass filter prior to sampling. Why is this necessary?}
+
+          The low-pass filter is used to remove noise, and to remove frequency components that may be higher than the Nyquist frequency. This is necessary, because the sampling theorem states that the sampling frequency must be at least twice the highest frequency component of the signal. If this is not the case, aliasing will occur, causing the signal to be distorted. The low-pass filter removes frequency components that may be un-accounted for, and thus prevents aliasing.
+
+    \item {\bf What is the minimum sampling frequency for a pure sine wave input at 3KHz? Assume that the signal can be completely reconstructed.}
+
+          The minimum sampling frequency for a pure sine wave input at 3KHz would be $f_s = 2 * f_{max} = 6\text{KHz}$
+
+    \item {\bf What is the Nyquist frequency?}
+
+          The Nyquist frequency is the highest frequency that can be represented in a sampled signal. It is half the sampling frequency and defined as $f_{Nyquist} = \frac{f_s}{2}$
+
+    \item {\bf What are the resulting frequencies for the following input sinusoids 500Hz, 2.5KHz, 5KHz and 5.5KHz if the signals are sampled by a sampling frequency of 5KHz?}
+
+          The frequencies would be:
+          \begin{enumerate}
+              \item 500Hz: 500Hz
+              \item 2.5Khz: 0KHz (DC component)
+              \item 5KHz: 0KHz (Aliased)
+              \item 5.5KHz: 0.5KHz (Aliased, by $f - f_{sampling}$)
+          \end{enumerate}
+
+    \item {\bf Mention three frequencies of signal that alias to a 7Hz signal. The signal is sampled by a constant 30 Hz sampling frequency.}
+
+          The frequencies would be: $37$Hz, $67$Hz, $97$Hz.
+\end{enumerate}
