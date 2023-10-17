@@ -52,7 +52,8 @@ The code used to perform the sampling is given below.
 f = 50; % frequency, in hertz
 f_n = 2*f; % nyquist frequency, in hertz
 
-t = 0:1E-5:1; % smaller iterations lead to closer to continuous behavior
+samples=1E5;
+t = 0:1/samples:1; % 100kS
 
 V_pp = 5;
 w = 2*pi*f;
@@ -65,26 +66,24 @@ ylabel("Voltage")
 xlabel("Time")
 title("Original signal");
 ylim([-10, 10]);
-xlim([0, 1/f]);
+xlim([0, 0.5]);
 
 % Dirac comb
-T = 1/f_n;
 subplot(3, 2, 2);
 p = zeros(size(t));
-p(mod(t, T) == 0) = 1;
+p(1:10750:length(t)) = 1;
 stem(t, p);
 ylabel("Voltage")
 xlabel("Time")
 title("Dirac comb");
 ylim([0, 1]);
-xlim([0, 10*T]);
+xlim([0, 1]);
 
 % Undersampled signal:
 fs = 48; % In hertz
-T = 1/fs;
 
 p = zeros(size(t));
-p(mod(t, T) == 0) = 1;
+p(1:samples/fs:length(t)) = 1;
 
 subplot(3, 2, 3);
 plot(t, p .* x);
@@ -92,14 +91,13 @@ ylabel("Voltage")
 xlabel("Time")
 title("Undersampled signal");
 ylim([-10, 10]);
-xlim([0, 1/2]);
+xlim([0, 0.5]);
 
 % Nyquist-Frequency sampled signal
 fs = 100; % In hertz
-T = 1/fs;
 
 p = zeros(size(t));
-p(mod(t, T) == 0) = 1;
+p(1:samples/fs:length(t)) = 1;
 
 subplot(3, 2, 4);
 plot(t, p .* x);
@@ -108,15 +106,13 @@ xlabel("Time")
 title("Nyquist-Frequency signal");
 
 ylim([-10, 10]);
-xlim([0, 1/50]);
-
+xlim([0, 0.5]);
 
 % Oversampled signal
 fs = 1000; % In hertz
-T = 1/fs;
 
 p = zeros(size(t));
-p(mod(t, T) == 0) = 1;
+p(1:samples/fs:length(t)) = 1;
 
 subplot(3, 2, 5);
 plot(t, p .* x);
@@ -125,7 +121,7 @@ xlabel("Time")
 title("Oversampled signal");
 
 ylim([-10, 10]);
-xlim([0, 1/50]);
+xlim([0, 0.5]);
 
 %%
 
@@ -161,7 +157,7 @@ xlim([0, 1/2]);
 ylim([-6, 6]);
 
 
-% Nyquist Damped signal:
+% Nyquist Sampled signal:
 fs = 100; % In hertz
 T = 1/fs;
 T0 = 0.5 * 1/fs;
@@ -175,7 +171,7 @@ title("Nyquist Sampled Signal")
 xlim([0, 1/50]);
 ylim([-6, 6]);
 
-% Nyquist Sampled signal:
+% Overly Sampled signal:
 fs = 1000; % In hertz
 T = 1/fs;
 T0 = 0.5 * 1/fs;
