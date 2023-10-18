@@ -105,14 +105,24 @@ By using Euler's trigonometric identities, it is obtained that the Fourier Trans
 \begin{equation}
     X(j\omega) = \tau \cdot \left[\frac{\sin(\frac{\omega \tau}{2})}{\frac{\omega \tau}{2}}\right] = \tau \cdot sinc\left(\frac{\omega \tau}{2}\right)
 \end{equation}
-
+\section{The Discrete Fourier Series}
+The Discrete Fourier Series is the discrete time equivalent of the Fourier Series, and the coefficients are defined as follows:
+\begin{equation}
+    a_\nu = \frac{1}{N}\sum_{n=-N_1}^{N_1}e^{-j\frac{2\pi\nu n}{N}}
+\end{equation}
+Furthermore, the fourier series summation can be expressed as,
+\begin{equation}
+    x[n] = \frac{1}{N}\sum_{\nu=(N)}a_\nu e^{j\frac{2\pi\nu n}{N}}
+\end{equation}
 \section{The Discrete Fourier Transform}
 Because computers can not handle continuous time signals, an analogous transform to the Fourier Transform is necessary, one that can handle discrete time signals. This is the Discrete Fourier Transform, which is defined as follows:
 \begin{equation}
     X[k] = \sum_{n=0}^{N-1}x[n]e^{-j\frac{2\pi kn}{N}}
 \end{equation}
-
 And the inverse is given by,
 \begin{equation}
-    x[k] = \frac{1}{N}\sum_{n=0}^{N-1}X[n]e^{-j\frac{2 \pi kn}{N}}
+    x[k] = \frac{1}{N}\sum_{n=0}^{N-1}X[n]e^{j\frac{2 \pi kn}{N}}
 \end{equation}
+The DFT, and the more commonly used algorithm to perform the DFT, the FFT, are widely used for signal filtering, for correlation analysis and for spectral analysis. The FFT simply uses the properties of periodicity, symmetry, and uses a divide-and-conquer approach to reduce the number of computations needed to perform the DFT. It is not an approximation of the DFT, it is simply a more efficient way to compute it.
+
+During the experiment, the Hanning Window is used on the oscilloscope as it is the best window to use when the signal is periodic. A window function simply cuts out the signal so that the FFT can be performed on it. The Hanning Window is some sort of rectangular pulse multiplied by the time signal, however, which leads to a sinc in the frequency domain. It will affect the transform, but it is the only viable option to perform the FFT on the signal.
