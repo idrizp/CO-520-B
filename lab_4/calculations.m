@@ -160,3 +160,34 @@ function [p] = gen_pulse_train(t, T0, T)
     end
 end
 
+
+%% 
+% Used: 2.5VPP at function generator, saw 5Vpp on oscilloscope
+
+% First: 24900Hz Display
+
+% Second: Dots display
+% Third: Vector display
+% Fourth: 25000Hz - If oscilloscope and function generator were
+% synchronized perfectly, you would only see a straight line.
+% Fifth: 25020Hz
+% Sixth: 25500Hz
+
+% Seventh: 150Hz - Synced with the sync output and source set to Ext.
+% Eighth: 200Hz 
+
+% At 24900Hz, 100Hz Frequency Displayed on Oscilloscope
+
+% At 25000Hz, only a line displayed on the oscilloscope, but we also
+% observe that the line has a very very small frequency to it(this is an
+% error) - an aliasing difference between the oscilloscope and function
+% generator frequency
+
+% Pre-lab: The reason Nyquist can be both zero and 2.5 according to the formula depending on the rounding,
+% is it depends on the
+% phase shift, but for others it does not matter
+
+% We observed a square wave for the DC input that followed the
+% variation(for 2V - approximately 216mVpp, for 3V - approximately 312mVpp)
+
+% The VPP was set to 0.75Vpp on the function generator.
