@@ -87,6 +87,34 @@ plot(f, Y_db);
 ylabel("Amplitude(in dBVrms)")
 xlabel("Frequency (in Hz)");
 
+%% Functions
+
+function [t, signal, f, y_single_db] = get_square(duty_cycle)
+    period = 1e-3;
+    Fs = 200e3;
+    frequency = 1/period;
+    Vpp = 2;
+    duration = period * 6;
+    
+    % The signal
+    t = 0:1/Fs:duration;
+    signal = Vpp*square((2*pi*frequency)*t, duty_cycle);
+    plot(t, signal, "blue", "LineWidth", 2);
+    
+    % The fourier transform of the signal
+    rms_value = sqrt(mean(signal.^2));
+    N = length(signal); % The length of the signal
+    
+    y = fft(signal, N);
+    y_mag = 2*(abs(y)/N); % Magnitudes of y
+    
+    y_single = y_mag(1:floor(N/2)) * 2;
+    f_nyquist = Fs / 2;
+    
+    y_single_db = 20*log10(y_single / rms_value);
+    f = linspace(0, f_nyquist, length(y_single));
+end
+
 %% Lab start
 clear
 clc
@@ -115,32 +143,5 @@ clc
 
 % Problem 3:
 
-% First harmonic: -26.9dB, 1000Hz
-% Second harmonic: -23.7dB, 9900Hz
-%% Functions
-
-function [t, signal, f, y_single_db] = get_square(duty_cycle)
-    period = 1e-3;
-    Fs = 200e3;
-    frequency = 1/period;
-    Vpp = 2;
-    duration = period * 6;
-    
-    % The signal
-    t = 0:1/Fs:duration;
-    signal = Vpp*square((2*pi*frequency)*t, duty_cycle);
-    plot(t, signal, "blue", "LineWidth", 2);
-    
-    % The fourier transform of the signal
-    rms_value = sqrt(mean(signal.^2));
-    N = length(signal); % The length of the signal
-    
-    y = fft(signal, N);
-    y_mag = 2*(abs(y)/N); % Magnitudes of y
-    
-    y_single = y_mag(1:floor(N/2)) * 2;
-    f_nyquist = Fs / 2;
-    
-    y_single_db = 20*log10(y_single / rms_value);
-    f = linspace(0, f_nyquist, length(y_single));
-end
+% First harmonic: -26.9dB, 1000kHz
+% Second harmonic: -23.7dB, 9900kHz

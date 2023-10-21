@@ -1,0 +1,7 @@
+In this experiment properties of the FFT function on the oscilloscope were observed. In general, the FFT of the oscilloscope is accurate, however the windowing function which causes leakage is not taken into account, which causes minor disturbances in the frequency spectrum.
+
+The oscilloscope may also not have been calibrated properly, as there was a 1\% error in the frequency, which is unusual as the oscilloscope should usually be at around 0.01\% error.
+
+Furthermore, the oscilloscope has a limited resolution, which causes the spectral peak to be slightly off from the theoretical value of 0dB when the voltage was $2.7V_{pp}$, where the oscilloscope would fluctuate between -148mdB to 200mdB, no matter the adjustment made.
+
+The oscilloscope also has a limited bandwidth, which causes the resolution to decrease when the frequency scale is expanded. Furthermore, when the duty cycle is decreased to 20\%, the signal can no longer be characterized by simply odd and even harmonics, and every fifth harmonic has a significantly lower amplitude. Finally, when adding two signals together, the FFT of the signal is the sum of the FFT of the two signals, which is expected since the FFT is a linear operation.

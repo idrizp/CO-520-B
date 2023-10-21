@@ -84,40 +84,12 @@
           \begin{equation}
               a_n = \left\{ \frac{-4}{\pi^2}, \frac{4}{16\pi^2}, \frac{-4}{36\pi^2}, \frac{4}{64\pi^2}, \frac{-4}{100\pi^2} \right\}
           \end{equation}
-    \item Use MATLAB to plot the original function and the inverse Fourier transform. Put both graphs into the same diagram.
+    \item Use MATLAB to plot the original function and its fourier series up to the fifth harmonic. Put both graphs into the same diagram.
           \begin{figure}[H]
               \centering
               \includegraphics[width=0.8\textwidth]{images/prelab_problem_2_plot.png}
-              \caption{The plot of the original function, its inverse fourier transform, the fourier series representation up to the fifth harmonic, and the representation's inverse fourier transform}
+              \caption{The plot of the original function, and its fourier series leading up to the fifth harmonic}
           \end{figure}
-          The code used:
-          \begin{verbatim}
-t = -0.5:0.01:0.5;
-f = 4*t.^2;
-f_fs = 1/3;
-
-% Fourier series representation of the function
-for i=1:5
-    % w_0 = 2pi
-    % T = 1
-    a_i = (4*(-1)^i)/(pi^2*i^2);
-    f_fs = f_fs + (a_i .* cos(i.*2.*pi.*t));
-end
-hold on
-
-plot(t, f, "blue");
-plot(t, f_fs, "black");
-xlim([-0.5, 0.5]);
-
-plot(t, abs(ifft(f)), "red");
-plot(t, abs(ifft(f_fs)), "green");
-
-legend({"Original Function", ...
-    "Fourier Series Representation", ...
-    "IFFT", ...
-    "IFFT of Fourier Series" ...
-    }, "Location", "southwest")
-          \end{verbatim}
 \end{enumerate}
 
 \newpage
@@ -134,73 +106,6 @@ legend({"Original Function", ...
     \includegraphics[width=0.8\textwidth]{images/prelab_problem_3_freq.png}
     \caption{A figure showing the different rectangular waves' spectra based on their duty cycles. Plotted using MATLAB.}
 \end{figure}
-
-The code used to plot the figures:
-\newpage
-\begin{verbatim}
-%% Time plots
-
-[t_fifty, signal_fifty, f_fifty, y_fifty] = get_square(50);
-[t_thirty, signal_thirty, f_thirty, y_thirty] = get_square(30);
-[t_twenty, signal_twenty, f_twenty, y_twenty] = get_square(20);
-
-subplot(3, 1, 1);
-plot(t_fifty, signal_fifty, "blue", "LineWidth", 2);
-title("Duty Cycle: 50%");
-
-subplot(3, 1, 2);
-plot(t_thirty, signal_thirty, "blue", "LineWidth", 2);
-title("Duty Cycle: 30%");
-
-subplot(3, 1, 3);
-plot(t_twenty, signal_twenty, "blue", "LineWidth", 2);
-title("Duty Cycle: 20%");
-
-%% Frequency plots
-subplot(3, 1, 1);
-plot(f_fifty, y_fifty, "blue", "LineWidth", 1);
-title("FT: Duty Cycle: 50%");
-
-
-subplot(3, 1, 2);
-plot(f_thirty, y_thirty, "blue", "LineWidth", 1);
-title("FT: Duty Cycle: 30%");
-
-
-subplot(3, 1, 3);
-plot(f_twenty, y_twenty, "blue", "LineWidth", 1);
-title("FT: Duty Cycle: 20%");
-\end{verbatim}
-Where the function \texttt{get\_square} is defined as:
-\newpage
-\begin{verbatim}
-function [t, signal, f, y_single_db] = get_square(duty_cycle)
-    period = 1e-3;
-    Fs = 200e3;
-    frequency = 1/period;
-    Vpp = 2;
-    duration = period * 4;
-    
-    % The signal
-    t = 0:1/Fs:duration;
-    signal = Vpp*square((2*pi*frequency)*t, duty_cycle);
-    plot(t, signal, "blue", "LineWidth", 2);
-    
-    % The fourier transform of the signal
-    rms_value = sqrt(mean(signal.^2));
-    N = length(signal); % The length of the signal
-    
-    y = fft(signal, N);
-    y_mag = 2*(abs(y)/N); % Magnitudes of y
-    
-    y_single = y_mag(1:floor(N/2)) * 2;
-    f_nyquist = Fs / 2;
-    
-    y_single_db = 20*log10(y_single / rms_value);
-    f = linspace(0, f_nyquist, length(y_single));
-end
-\end{verbatim}
-
 Following by the equation:
 
 \begin{equation}
@@ -222,33 +127,6 @@ It is observed that for a lower $T_1$, for each frequency component the amplitud
     \caption{A figure showing the frequency spectrum of the audio file}
 \end{figure}
 
-The following code was used for the plots:
-\vspace{1cm}
-\begin{verbatim}
-%% Problem 4:
-[y, Fs] = audioread("s_samp.wav");
-
-N_samples = Fs * 10E-3;
-y = y(1:N_samples);
-t = 0:1/Fs:((10E-3)-1/Fs);
-plot(t, y);
-%% 
-Y = fft(y);
-rms = sqrt(mean(abs(Y.^2)));
-
-Fs_nyquist = Fs / 2; 
-
-Y_single = 2 * abs(Y) / N_samples;
-Y_single = Y_single(1:floor(N_samples/2));
-f = linspace(0,Fs_nyquist,length(Y_single));
-Y_db = 20*log10(Y_single ./ rms);
-
-plot(f, Y_db);
-ylabel("Amplitude(in dBVrms)")
-xlabel("Frequency (in Hz)");
-xlim([0, 20000]);
-\end{verbatim}
-
 The following tones are observed:
 \begin{itemize}
     \item G3 - 201Hz
@@ -260,3 +138,5 @@ The following tones are observed:
     \item D\#8 - 5034Hz
     \item G\#8 - 6645Hz
 \end{itemize}
+
+The MATLAB code for all of the prelab problems are provided in the appendix.
