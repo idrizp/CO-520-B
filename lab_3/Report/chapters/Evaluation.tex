@@ -3,7 +3,7 @@
 \begin{enumerate}
     \item What is the reference value of the oscilloscope for 0dB?
 
-          The reference value of the oscilloscope for 0dB is $1V_{\text{rms}}$ and $1.4V_{pp}$.
+          The reference value of the oscilloscope for 0dB is $1V_{\text{rms}}$ and $1.4V_{pp}$, because the voltage we measured for 0dB was approximately $2.7V_{pp}$, which is approximately $1.35V$ in amplitude, close to $\sqrt{2}$ which is also happens to be the RMS value for a sinusoidal wave, and the logarithm for any base of 1 is 0, which is why the oscilloscope shows 0dB for $2.7V_{pp}$.
     \item The MATLAB calculation of the FFT of the signal is shown in the figure below.
           \begin{figure}[H]
               \centering
@@ -14,7 +14,7 @@
           The calculated spectra seems to be in-line with what is seen in the oscilloscope, although there are no minor disturbances which are caused by the leakage of the windowing function used by the oscilloscope.
           The code used to generate the FFT is shown in the appendix.
 
-    \item The MATLAB calculation of the FFT of the signal is shown in the figure below. In order to get a 0dB spectral peak, the voltage must be $sqrt(2)$, which is 1.414V or $2.82V_{pp}$.
+    \item The MATLAB calculation of the FFT of the signal is shown in the figure below. In order to get a 0dB spectral peak, the voltage must be $\sqrt{2}$, which is 1.414V or $2.82V_{pp}$.
           \begin{figure}[H]
               \centering
               \includegraphics[width=0.75\linewidth]{images/evaluation_problem3.png}
@@ -28,7 +28,7 @@
 \section{Problem 2: FFT of a Square Wave}
 \begin{enumerate}
     \item When the frequency scale is expanded to measure the frequency components of the signal, the bandwidth will decrease. The higher the bandwidth, the lower the resolution of the oscilloscope.
-    \item In the 20\% duty cycle, it is observed that the signal can no longer be characterized by simply odd and even harmonics. Furthermore, every fifth harmonic has a significantly lower amplitude.
+    \item In the 20\% duty cycle, it is observed that the signal can no longer be characterized by simply odd and even harmonics. Furthermore, every fifth harmonic has a significantly lower amplitude, this is not shown in the oscilloscope hardcopies, however it is observed in the FFT of the signal in both theory, and in practice while observing the oscilloscope outside of the first four harmonics.
 \end{enumerate}
 
 \section{Problem 3: FFT of a multiple-tone signal}
