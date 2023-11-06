@@ -1,8 +1,10 @@
 %% Prelab:
+close all
+clear all
 
 % Prelab Problem 2:
-Fs = 1e5;
-t = 0:1/Fs:0.01; % 5 seconds
+Fs = 1e6;
+t = 0:1/Fs:0.01 - 1/Fs; % 5 seconds
 f = 20E3; % 20 Khz
 
 A_c = 5;
@@ -36,8 +38,10 @@ spectrum_single(1:end-1) = 2*spectrum_single(1:end-1);
 F = Fs * (0:(N/2)) / N;
 subplot(3, 2, 3);
 plot(F, spectrum_single);
-xlim([1E4, 5E4]);
+xlim([1.9E4, 2.1E4]);
 title('Amplitude Modulated Signal Frequency Spectrum');
+xlabel("Frequency(in Hz)")
+ylabel("Amplitude(in V)")
 
 frequencies = logspace(3, 5, 100); % 100 Hz to 100 KHz
 Wn = 1000/(Fs/2); % Normalized cutoff frequency
@@ -53,12 +57,12 @@ Wn = 1000/(Fs/2); % Normalized cutoff frequency
 
 % (Ac + abs(Ac)) / 2;
 % Or -0.5 for the diode effect
-rectified = abs(y);
+rectified = (A_c + abs(y)) / 2 - 0.5;
 filtered = filter(b1, a1, rectified);
 
 % figure;
 subplot(3, 2, 4);
-plot(t, rectified);
+plot(t, filtered);
 title('First-Order Demodulated Signal');
 xlabel('Time(in s)');
 ylabel('Voltage(in V)');
@@ -96,3 +100,26 @@ title("Third Order Butterworth Filter Bode Plot");
 % Tenth Hardcopy - Circuit 3rd order demodulation hardcopy - FFT amplitude
 % Eleventh Hardcopy - Circuit 3rd order demodulation hardcopy - 20kHz
 % component
+
+%% Evaluation: Part 2
+close all
+clc
+
+w_c = 20E3 * 2 * pi;
+w_m = 5E2 * 2 * pi;
+c = 5*sin(w_c*t);
+y = (1 + 0.70*cos(w_m * t)) .* c;
+
+N = length(y);
+Y = fft(y);
+
+spectrum = abs(Y/N);
+spectrum_single = spectrum(1:N/2+1);
+spectrum_single(1:end-1) = 2*spectrum_single(1:end-1);
+
+F = Fs * (0:(N/2)) / N;
+plot(F, 20*log10(spectrum_single / sqrt(2)));
+xlim([1.9E4, 2.1E4]);
+title('Amplitude Modulated Signal Frequency Spectrum');
+xlabel("Frequency(in Hz)")
+ylabel("Amplitude(in V)")
